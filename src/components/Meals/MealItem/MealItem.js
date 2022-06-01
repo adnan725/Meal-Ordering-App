@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import styles from './MealItem.module.scss'
-import meals from "../Meals";
 
 const MealItem = (props) => {
     const price = `$${props.price.toFixed(2)}`

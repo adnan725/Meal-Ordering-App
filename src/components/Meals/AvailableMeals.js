@@ -38,9 +38,7 @@ const AvailableMeals = () => {
 
     return <section className={styles.meals}>
         <Card>
-            <ul>
                 {mealsList}
-            </ul>
         </Card>
     </section>
 

@@ -7,7 +7,6 @@ const Meals = () => {
     return <Fragment>
         <MealsSummary />
         <AvailableMeals />
-        <Cart />
     </Fragment>
 }
 

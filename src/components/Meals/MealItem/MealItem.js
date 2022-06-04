@@ -1,8 +1,20 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import styles from './MealItem.module.scss';
 import MealItemForm from "./MealItemForm/MealItemForm";
-
+import CartContext from "../../../store/cart-context";
 const MealItem = (props) => {
+
+    const cartCtx = useContext(CartContext)
+
+    const addItemToCartHandler = (amount) => {
+        cartCtx.addItems({
+            id: props.id,
+            name: props.name,
+            amount: amount,
+            price: props.price
+        })
+    }
+
     const price = `$${props.price.toFixed(2)}`
     return <Fragment>
         <li className={styles.meal}>
@@ -12,7 +24,7 @@ const MealItem = (props) => {
                 <p className={styles.price}>{price}</p>
             </div>
             <div>
-                <MealItemForm />
+                <MealItemForm onAddItemToCart={addItemToCartHandler}/>
             </div>
         </li>
     </Fragment>

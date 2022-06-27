@@ -39,14 +39,22 @@ const Checkout = (props) => {
 
         const formIsValid = enteredNameIsValid && enteredStreetIsValid && enteredCityIsValid && enteredPostalCodeIsValid
 
-        if (formIsValid) {
-            console.log(enteredStreet, enteredName, enteredPostalCode, enteredCity)
-
+        if (!formIsValid) {
+            return;
+        } else {
             nameRef.current.value = ''
             streetRef.current.value = ''
             postalCodeRef.current.value = ''
             cityRef.current.value = ''
+
         }
+
+        props.onConfirm({
+            name: enteredName,
+            street: enteredStreet,
+            postalCode: enteredPostalCode,
+            city: enteredCity
+        })
     }
 
     return <>
@@ -66,7 +74,6 @@ const Checkout = (props) => {
                     type="text"
                     id="street"
                     ref={streetRef}
-                    // value={street}
                 />
                 {!checkFormValidity.street && <p>Please enter a valid Street</p>}
             </div>
@@ -76,7 +83,6 @@ const Checkout = (props) => {
                     type="text"
                     id="postal"
                     ref={postalCodeRef}
-                    // value={postalCode}
                 />
                 {!checkFormValidity.postalCode && <p>Please enter a valid Postal Code</p>}
             </div>
@@ -86,7 +92,6 @@ const Checkout = (props) => {
                     type="text"
                     id="city"
                     ref={cityRef}
-                    // value={city}
                 />
                 {!checkFormValidity.city && <p>Please enter a valid City</p>}
             </div>

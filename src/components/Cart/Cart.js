@@ -36,12 +36,23 @@ const Cart = (props) => {
                 onRemove={removeItemsFromCartHandler.bind(null, item.id)}
             />
         ))}
+
     </ul>
 
     const modalActions = <div className={styles.actions}>
         <button className={styles['button--alt']} onClick={props.onClose}>Close</button>
         {hasItems && <button className={styles.button} onClick={orderHandler}>Order</button>}
     </div>
+
+    const orderConfirmHandler = (userData) => {
+        fetch('https://meals-project-f49bf-default-rtdb.europe-west1.firebasedatabase.app/orders.json', {
+            method: 'POST',
+            body: JSON.stringify({
+                user: userData,
+                order: cartCtx.items
+            })
+        })
+    }
 
     return (
         <Modal onClose={props.onClose}>
@@ -50,7 +61,7 @@ const Cart = (props) => {
                 <span>Total Amount</span>
                 <span>{totalAmount}</span>
             </div>
-            {isForm && <Checkout onCancel={props.onClose}/>}
+            {isForm && <Checkout onConfirm={orderConfirmHandler} onCancel={props.onClose}/>}
             {!isForm &&  modalActions}
         </Modal>
     )

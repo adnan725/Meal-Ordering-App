@@ -7,12 +7,16 @@ const AvailableMeals = () => {
 
     const [meals, setMeals] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [isError, setIsError] = useState()
 
     useEffect(() => {
         const fetchedMeal = async  () => {
-            const response = await fetch('https://meals-project-f49bf-default-rtdb.europe-west1.firebasedatabase.app/meals.json')
-            const mealsData = await response.json()
 
+            const response = await fetch('https://meals-project-f49bf-default-r.firebasedatabase.app/meals.json')
+            const mealsData = await response.json()
+            if (!response.ok) {
+                throw new Error('Something went wrong')
+            }
             const loadedData = []
 
             for (const key in mealsData) {
@@ -26,12 +30,24 @@ const AvailableMeals = () => {
             setMeals(loadedData)
             setIsLoading(false)
         }
-        fetchedMeal()
+
+        fetchedMeal().catch(error => {
+            setIsLoading(false)
+            setIsError(error.message)
+        })
+
     }, [])
+
 
     if(isLoading) {
         return <section className={styles.mealsLoading}>
             <p>Loading...</p>
+        </section>
+    }
+
+    if (isError) {
+        return <section className={styles.mealsError}>
+            {isError}
         </section>
     }
 
